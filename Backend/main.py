@@ -24,7 +24,7 @@ async def get_user(user_id: str):
         return {"status": "error", "message": "User not found"}
     return users_db[user_id]
 
-@app.post("/mealplan/generate")
+@app.post("/mealplan/generate/{user_id}")
 async def generate_meal_plan(user_id: str):
     """Generate a meal plan for a user"""
     if user_id not in users_db:
