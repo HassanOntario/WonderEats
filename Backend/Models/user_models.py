@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
+#user models
 class User(BaseModel):
     user_id: str
     name: str
