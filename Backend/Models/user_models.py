@@ -9,12 +9,15 @@ class User(BaseModel):
     weight_kg: float
     goals: str  # e.g., "lose_fat", "gain_muscle", "maintain"
     budget_per_week: Optional[float] = None
+    scheduling_constraints: Optional[str] = None
+    equipment_available: Optional[List[str]] = None
 
 class UserNutritionProfile(BaseModel):
     bmr: float
     tdee: float # Total Daily Energy Expenditure
     maintenance_calories: float
     allergies: List[str] = []
+    dietary_identities: Optional[List[str]] = None
 
 class UserPreferences(BaseModel):
     favorite_cuisines: Optional[List[str]] = None
@@ -28,8 +31,12 @@ class UserInsights(BaseModel):
     health_conditions: Optional[List[str]] = None
     energy_levels: Optional[str] = None
 
+class UserFrigeContents(BaseModel):
+    ingredients_on_hand: Optional[List[str]] = None
+
 class UserFullProfile(BaseModel):
     user: User
     nutrition: UserNutritionProfile
     preferences: UserPreferences
     insights: UserInsights
+    fridge_contents: UserFrigeContents
