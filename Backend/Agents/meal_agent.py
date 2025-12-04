@@ -1,5 +1,5 @@
 # agents/meal_agent.py
-from openai import AsyncOpenAI
+import google.generativeai as genai
 from Backend.Models.user_models import UserFullProfile
 import json
 import os
@@ -7,25 +7,25 @@ from dotenv import load_dotenv
 
 load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
 
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Configure Gemini
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def generate_mealplan(data: UserFullProfile):
-    response = await client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a personalized meal plan generator.\n"
-                    "Use the provided user profile JSON as the single source of truth.\n"
-                    "Generate a meal plan aligned with goals, nutrition needs,\n"
-                    "preferences, lifestyle insights, and allergies."
-                )
-            },
-            {
-                "role": "user",
-                "content": json.dumps(data.model_dump(), indent=2)
-            }
-        ]
+    # Create the model
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    
+    # Create the prompt
+    system_instruction = (
+        "You are a personalized meal plan generator.\n"
+        "Use the provided user profile JSON as the single source of truth.\n"
+        "Generate a meal plan aligned with goals, nutrition needs,\n"
+        "preferences, lifestyle insights, and allergies."
     )
-    return response.choices[0].message.content
+    
+    user_data = json.dumps(data.model_dump(), indent=2)
+    prompt = f"{system_instruction}\n\nUser Profile:\n{user_data}"
+    
+    # Generate content
+    response = await model.generate_content_async(prompt)
+    
+    return response.text
