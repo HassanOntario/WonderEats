@@ -1,0 +1,132 @@
+INFO:     Started server process [8125]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+Loading embedding model...
+✅ ChromaDB initialized. Current recipe count: 37
+INFO:     127.0.0.1:56313 - "GET /users/test_user_001 HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56315 - "POST /users HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56318 - "POST /users/3/mealplans HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/applications.py", line 1139, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 120, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 106, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 430, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 316, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/Backend/Routers/api.py", line 41, in generate_meal_plan
+    user_data = UsersRepository.get_user(user_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/Backend/Routers/users_repo.py", line 133, in get_user
+    return UserFullProfile(
+           ^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for UserFullProfile
+fridge_contents
+  Field required [type=missing, input_value={'user': User(user_id='3'..., energy_levels='Good')}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+INFO:     127.0.0.1:56340 - "GET /users/test_user_001 HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:56342 - "POST /users HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56345 - "POST /users/4/mealplans HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/applications.py", line 1139, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 120, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 106, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 430, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/fastapi/routing.py", line 316, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/Backend/Routers/api.py", line 41, in generate_meal_plan
+    user_data = UsersRepository.get_user(user_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/Backend/Routers/users_repo.py", line 133, in get_user
+    health_conditions=json.loads(insights_row['Health_conditions']) if insights_row['Health_conditions'] else None,
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hassanismael/Documents/Projects/GardenOfEaten/venv312/lib/python3.12/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for UserFullProfile
+fridge_contents
+  Field required [type=missing, input_value={'user': User(user_id='4'..., energy_levels='Good')}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [8125]

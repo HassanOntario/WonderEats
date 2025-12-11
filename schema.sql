@@ -110,3 +110,34 @@ CREATE TABLE IF NOT EXISTS MealPlanHistory (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (User_id) REFERENCES User(id) ON DELETE CASCADE
 );
+
+-- Recipes table (for imported recipes from APIs)
+CREATE TABLE IF NOT EXISTS Recipes (
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    source VARCHAR(100) NOT NULL, -- 'spoonacular', 'edamam', 'user_generated'
+    cuisine VARCHAR(100),
+    description TEXT,
+    nutrition JSON NOT NULL,
+    ingredients JSON NOT NULL,
+    instructions TEXT,
+    tags JSON,
+    popularity_score INT DEFAULT 0,
+    created_by INT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES User(id) ON DELETE SET NULL
+);
+
+-- RecipeUsage table (track which recipes were used in meal plans)
+CREATE TABLE IF NOT EXISTS RecipeUsage (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    meal_plan_id BIGINT NOT NULL,
+    recipe_id VARCHAR(255) NOT NULL,
+    user_rating VARCHAR(50), -- 'liked', 'disliked', 'neutral'
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+    FOREIGN KEY (meal_plan_id) REFERENCES MealPlanHistory(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(id) ON DELETE CASCADE
+);

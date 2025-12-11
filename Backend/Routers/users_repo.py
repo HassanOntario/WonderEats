@@ -1,5 +1,5 @@
 from Backend.database import get_db_connection, get_db_cursor
-from Backend.Models.user_models import UserFullProfile, User, UserNutritionProfile, UserPreferences, UserInsights
+from Backend.Models.user_models import UserFullProfile, User, UserNutritionProfile, UserPreferences, UserInsights, UserFrigeContents
 import json
 from typing import Optional
 
@@ -98,6 +98,10 @@ class UsersRepository:
             cursor.execute("SELECT * FROM UserInsights WHERE User_id = %s", (user_id,))
             insights_row = cursor.fetchone()
             
+            # Get UserFridgeContents
+            cursor.execute("SELECT * FROM UserFridgeContents WHERE User_id = %s", (user_id,))
+            fridge_row = cursor.fetchone()
+            
             # Build UserFullProfile
             user = User(
                 user_id=str(user_row['id']),
@@ -130,11 +134,16 @@ class UsersRepository:
                 energy_levels=insights_row['Energy_levels']
             )
             
+            fridge_contents = UserFrigeContents(
+                ingredients_on_hand=json.loads(fridge_row['Ingredients_on_hand']) if fridge_row and fridge_row['Ingredients_on_hand'] else None
+            )
+            
             return UserFullProfile(
                 user=user,
                 nutrition=nutrition,
                 preferences=preferences,
-                insights=insights
+                insights=insights,
+                fridge_contents=fridge_contents
             )
     
     @staticmethod
