@@ -1,6 +1,7 @@
 # agents/meal_agent.py
 import google.generativeai as genai
 from Backend.Models.user_models import UserFullProfile
+# ^ 1. load from SQL database, not pydantic model
 from Backend.Routers.recipe_repo import RecipeRepository
 import json
 import os
@@ -12,6 +13,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def generate_mealplan(data: UserFullProfile):
+    # ^1. load from SQL database, not pydantic model
     """
     Generate a personalized meal plan using RAG (Retrieval Augmented Generation).
     
@@ -36,7 +38,9 @@ async def generate_mealplan(data: UserFullProfile):
     
     # AGGRESSIVE OPTIMIZATION: Retrieve exactly what's needed (21 recipes for 7 days × 3 meals)
     # This gives Gemini just enough variety without wasting tokens
+    #
     # 21 recipes × 50 tokens = ~1,050 tokens (was ~2,480 with 31 recipes)
+    # ^2. token optimization needed. send ids instead of full recipes
     relevant_recipes = repo.search_recipes(
         goal=user_goal,
         preferences=cuisine_preferences if cuisine_preferences else None,
@@ -72,15 +76,14 @@ RECIPES:
 
 USER: {user_data_compact}"""
     
-    # Create the model and generate
-    # Trying gemini-2.0-flash-exp - experimental models may have higher free tier limits
-    model = genai.GenerativeModel('models/gemini-2.5-flash-exp')
+    model = genai.GenerativeModel('models/gemini-2.5-flash')
     response = await model.generate_content_async(prompt)
     
     return response.text
 
 
 def _format_recipes_for_prompt(recipes: list) -> str:
+    #^3. recipe formatting to be revisited
     """Ultra-compact recipe format: ~50 tokens per recipe (was ~175)
     
     Format: #1 RecipeName|Cuisine|Cal:X P:Xg C:Xg F:Xg
